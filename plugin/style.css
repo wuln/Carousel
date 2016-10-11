@@ -1,0 +1,133 @@
+@charset "utf-8";
+/* CSS Document */
+/*reset.css*/
+body,div,p,h1,h2,h3,table,dl,dt,dd,ul,li,ol{
+    padding:0; margin:0;
+}
+em,u,i{
+    font-style:normal;
+}
+a{
+    text-decoration:none;
+}
+li{
+    list-style:none;
+}
+textarea,input{
+    outline:none;
+}
+textarea{
+    resize:none;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+img{
+    border:none;
+}
+/*自定义*/
+
+.play-mid{
+    width:400px;
+    height:500px;
+    position:relative;
+    margin:10px auto;
+    border:#ccc 1px solid;
+}
+.play-mid-btn{
+    display:none;
+    position:absolute;
+    width:30px;
+    height:30px;
+    background:rgba(0,0,0,.3);
+    text-align:center;
+    line-height: 30px;
+    color:#fff;
+    cursor:pointer;
+    top:220px;
+    right:0;
+    z-index:10;
+    border:#fff 1px solid;
+}
+.play-mid-btn:hover{
+    background: rgba(0,0,0,.6);
+}
+.play-mid-left{
+    left:0;
+}
+.play-mid-right{
+    right:0;
+}
+.play-mid-up{    
+    top:205px;
+}
+.play-mid-down{   
+    top:250px;
+}
+.play-mid-client{
+    width:400px;
+    height:500px;
+    overflow:hidden;
+    position:relative
+;}
+.play-mid-list{
+    position: absolute;
+}
+.play-mid-list li{
+    position:relative; 
+    width:400px; 
+    height:500px;
+}
+/*.play-mid-list li span{*/
+    /*position:absolute;*/
+    /*width:40px;*/
+    /*height:40px;*/
+    /*font:bold 40px/40px Arial, Helvetica, sans-serif;*/
+    /*text-align:center;*/
+    /*color:#fff;*/
+    /*left:0;*/
+    /*top:0;*/
+    /*background:#000;*/
+    /*border-radius: 50%;*/
+/*;}*/
+.play-mid-list li img{
+    width:400px;
+    height:500px;
+}
+.play-mid-horizontal{
+    position:absolute;
+    /*left:0;*/
+    bottom:20px;
+    text-align:center;
+}
+.play-mid-horizontal li{
+    display:inline-block;
+    *display:inline;
+    zoom:1;
+    width:10px;
+    height:10px;
+    background:#003;
+    border:#fff 1px solid;
+    margin:0 5px;
+    cursor:pointer;
+    border-radius: 50%;
+}
+.play-mid-horizontal .select{
+    background:#FFF;
+}
+.play-mid-vertical{
+    position:absolute;
+    left:10px;
+   /* top:0;*/
+}
+.play-mid-vertical li{
+    width:10px;
+    height:10px;
+    background:#003;
+    border:#fff 1px solid;
+    margin:5px 0;
+    cursor:pointer;
+    border-radius: 50%;
+}
+.play-mid-vertical .select{
+    background:#FFF;
+}

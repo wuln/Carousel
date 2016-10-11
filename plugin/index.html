@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div id="play" class="play-mid">
+        <div class="play-mid-client">
+            <ul class="play-mid-list">
+                <li><span></span><a href=""><img src="imgs/1.jpg" alt=""/></a></li>
+                <li><span></span><a href=""><img src="imgs/2.jpg" alt=""/></a></li>
+                <li><span></span><a href=""><img src="imgs/3.jpg" alt=""/></a></li>
+                <li><span></span><a href=""><img src="imgs/4.jpg" alt=""/></a></li>
+                <li><span></span><a href=""><img src="imgs/5.jpg" alt=""/></a></li>
+                <li><span></span><a href=""><img src="imgs/6.jpg" alt=""/></a></li>
+            </ul>
+        </div>
+    </div>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery-playmid-1.0.js"></script>
+<script>
+    $(function(){
+        $("#play").slide();//使用默认配置参数
+    })
+</script>
+</body>
+</html>
