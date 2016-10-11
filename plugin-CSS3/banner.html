@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>图片轮播</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<style type="text/css">
+	ul, li{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	#banner{
+		width: 200px;
+		height: 200px;
+		overflow: hidden;
+	}
+	#banner ul li,#banner ul li img{
+		width: 100%;
+		height: 100%;
+	}
+	#banner #prevBtn,#banner #nextBtn{
+		height:80px;
+		width:30px;
+		background:rgba(0,0,0,0.5);
+		position:absolute;
+		top:50%;
+		margin-top:-40px;
+		font-size:30px;
+		line-height:80px;
+		text-align:center;
+		text-decoration:none;
+		color:white;
+		opacity: 0;
+		transition: opacity 0.8s ease;
+	}
+	#banner #prevBtn{
+		left:0;
+	}
+	#banner #nextBtn{
+		right:0;
+	}
+	#banner:hover #prevBtn,#banner:hover #nextBtn{
+		opacity: 1;
+	}
+	.dot{
+		height:10px;
+		width:10px;
+		border-radius:5px;
+		background:#fff;
+		display:inline-block;
+		margin:5px;
+	}
+	.on{
+		background: orangered;
+	}
+</style>
+</head>
+<body>
+	<div class="box">
+		<div id="banner">
+			<ul id="banner-wrap">
+				<li>
+					<img src="img/1.jpg">
+				</li>
+				<li>
+					<img src="img/2.jpg">
+				</li>
+				<li>
+					<img src="img/3.jpg">
+				</li>
+				<li>
+					<img src="img/4.jpg">
+				</li>
+				<li>
+					<img src="img/5.jpg">
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src='http://libs.baidu.com/jquery/2.0.0/jquery.js'></script>
+	<script type="text/javascript">
+		(function($,window,document,undefinen){
+			$.fn.bannerSwiper=function(option){
+				this.default={
+					boxWrap:null,	//必填
+					nextBtn:false,	//是否启用向右按钮
+					prevBtn:false,	//是否启用向左按钮
+					autoPlay:false,	//是否启动自动播放
+					times:3000,		//自动轮播的时间间隔,
+					speed:1000,		//点击按钮切换的速度
+					circle:false,	//是否启动小圆点
+					circleAlign:"right",//小圆点的对其方式
+					circleClick:false	//小圆点是否可以点击
+				}
+				var self=this;
+				this.options=$.extend({},this.default,option);
+				// 插件入口
+				this.init=function(){
+					this.bulid();
+				}
+				this.bulid=function(){
+					var self=this;
+					self.length=$(this.options.boxWrap).find('li').length;
+					self.num=0;
+					self.nowTime=+new Date();
+					$(self.options.boxWrap).find('li').eq(self.num).show();
+					$(self.options.boxWrap).find('li').eq(self.num).siblings().hide();
+					self.css({"position":"relative"})
+					$(self.options.boxWrap).css({
+						"position":"relative",
+						width:"100%",
+						height:"100%",
+					});
+					self.find("li").css({
+						"position":"absolute",
+						"left":"0",
+						"right":"0"
+					});
+					// 是否启动自动轮播
+					if(self.options.autoPlay){
+						self.play();
+					}
+					// 是否启动按钮
+					if(self.options.nextBtn){
+						self.NextBtn();
+					}
+					// 是否启动按钮
+					if(self.options.prevBtn){
+						self.prevBtn();
+					}
+					// 是否启动小圆点
+					if(self.options.circle){
+						self.circle()
+					}
+					if(self.options.circleClick){
+						self.clickCircle();
+					}
+				}
+				// 鼠标移入时
+				this.on('mouseenter',function(){
+					self.stop();
+				})
+				// 鼠标移出时
+				this.on('mouseleave',function(){
+					self.play();
+				})
+				// 开始计时器，自动轮播
+				this.play=function(){
+					var self=this;
+					this.time=setInterval(function(){
+						if(self.num<self.length-1){
+							self.num++
+						}else{
+							self.num=0
+						}
+						$(self.options.boxWrap).find('li').eq(self.num).stop().fadeIn(self.options.speed);
+						$(self.options.boxWrap).find('li').eq(self.num-1).stop().fadeOut(self.options.speed);
+						self.playCircle(self.num);
+					},self.options.times);
+				}
+				// 停止计时器
+				this.stop=function(){
+					clearTimeout(this.time)
+				}
+				// 手动创建按钮元素
+				this.prevBtn=function(){
+					var self=this;
+					var ele=$("<a href='javascript:;' id='prevBtn'><</a>");
+					self.append(ele);
+					$('#prevBtn').bind("click",function(){
+						self.go(-1);
+					})
+				}
+				// 手动创建按钮元素
+				this.NextBtn=function(){
+					var self=this;
+					var ele=$("<a href='javascript:;' id='nextBtn'>></a>");
+					self.append(ele)
+					$('#nextBtn').bind("click",function(){
+						self.go(1);
+					})
+				}
+				// 手动创建小圆点
+				this.circle=function(){
+					var self=this;
+					var ele=$('<div id="circle-wrap"></div>');
+					for(var i=0;i<self.length;i++){
+						$('<a class="dot" href="javascript:;"></a>').appendTo(ele)
+					}
+					ele.css({
+						"position":"absolute",
+						'bottom':'0',
+						'right':'0',
+						'left':'0',
+						'height':'20px',
+						"padding":"0 10px",
+						'text-align':self.options.circleAlign
+					});
+					self.append(ele);
+					self.playCircle(this.num);
+					
+				}
+				//小圆点指定当前项
+				this.playCircle=function(num){
+					$('#circle-wrap').find('.dot').eq(num).addClass('on').siblings().removeClass('on');
+				}
+				// 点击小圆点
+				this.clickCircle=function(){
+					var self=this;
+					$('#circle-wrap').find('.dot').on('click',function(){
+						self.num=$(this).index();
+						self.go(2)
+					})
+				}
+				// 点击按钮，进行轮播
+				this.go=function(offset){
+					var self=this;
+					self.stop();
+					// +new Date-self.nowTime>600设置时间间隔，防止恶意连续点击
+					if(+new Date-self.nowTime>600){
+						if(offset==1){
+							if(self.num<self.length-1){
+								self.num++
+							}else{
+								self.num=0
+							}
+							self.next=self.num-1;
+						}else if(offset==-1){
+							if(self.num<0){
+								self.num=self.length-1
+							}else{
+								self.next=self.num;
+								self.num--;
+							}
+						}else if(offset==2){
+							self.num=self.num;
+							self.next=self.num+1;
+						}
+						$(self.options.boxWrap).find('li').eq(self.num).fadeIn(self.options.speed);
+						$(self.options.boxWrap).find('li').eq(self.num).siblings().fadeOut(self.options.speed);
+						self.playCircle(this.num);
+						self.nowTime=+new Date();
+					}
+				}
+				this.init();
+			}
+		})(jQuery,window,document)
+		$('#banner').bannerSwiper({
+			boxWrap:"#banner-wrap",
+			nextBtn:true,
+			prevBtn:true,
+			autoPlay:true,
+			circle:true,
+			circleClick:true
+		})
+	</script>
+</body>
+</html>
